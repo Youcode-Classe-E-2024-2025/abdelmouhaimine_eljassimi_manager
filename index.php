@@ -63,11 +63,9 @@
         <label for="password" class="block text-sm text-[#7E55E7] mb-1">Password</label>
         <input type="password" name="password" id="password" placeholder="Password" class="w-full px-4 py-2 text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7E55E7]">
       </div>
-      <button type="submit" name="signin" class="w-full bg-[#7E55E7] text-white py-2 rounded-md hover:bg-[#5ce1e6] focus:outline-none focus:ring-2 focus:ring-[#7E55E7]">
-        SIGN UP
-      </button>
+      <button type="submit" name="signin" class="w-full bg-[#7E55E7] text-white py-2 rounded-md hover:bg-[#5ce1e6] focus:outline-none focus:ring-2 focus:ring-[#7E55E7]">SIGN UP</button>
     </form>
   </div>
-  <script src="main.js"></script>
+  <script src="script/main.js"></script>
 </body>
 </html>
