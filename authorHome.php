@@ -1,3 +1,4 @@
+<?php include('database.php')?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,7 +25,13 @@
         </nav>
       </div>
       <div class="flex items-center">
-        <span class="mr-4 text-gray-600">AbdelMouhaimine El Jassimi</span>
+        <?php
+         $id = $_GET["id"];
+         $query = "SELECT * FROM actors  WHERE id = $id ";
+           $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+           $row = mysqli_fetch_assoc(result: $result);
+           ?>
+        <span class="mr-4 text-gray-600"><?php echo $row["name"] ?></span>
         <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
       </div>
     </header>
@@ -42,35 +49,32 @@
 
     <section class="m-4 p-6 rounded-lg">
       <div class="flex justify-between">
-          <h2 class="text-gray-700 font-semibold text-lg">Recommended</h2>
+          <h2 class="text-gray-700 font-semibold text-lg">YOUR BOOKS</h2>
           <button id="openModal" class = "bg-[#7E55E7] text-white font-bold p-2 w-32 rounded-sm flex justify-center align-center hover:bg-[#5ce1e6] hover: transition">ADD BOOK</button>
       </div>
       <div class="flex justify-around overflow-x-auto space-x-4 mt-4">
         <!-- Book Card -->
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/1.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
+        <div class="flex justify-around overflow-x-auto space-x-4 mt-4">
+      <?php
+          $id = $_GET["id"];
+          $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, a.name AS author_name FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id AND a.id = $id;";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          $count = 0;
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            ?>
+          <div class="min-w-[150px] bg-white flex flex-col gap-4 justify-center p-4 border rounded-md text-center shadow hover:shadow-lg transition">
+          <img src="<?php echo $row["cover_url"] ?>" class="w-36 flex justify-center ml-2" alt="Book" class="mx-auto mb-2"/>
+          <h3 class="font-semibold text-gray-700 w-40 flex justify-center flex-wrap"><?php echo $row['title']?></h3>
+          <i class="text-sm font-boldtext-gray-500"><?php echo $row['author_name']?></i>
+          <p class="text-sm font-bold text-indigo-600"><?php echo $row['rating']?>/5</p>
         </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/2.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/3.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/4.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
+            <?php 
+            $count++;
+            if ($count >= 4) {
+              break;
+            }
+          } ?>
+      </div>
       </div>
     </section>
 
@@ -85,19 +89,28 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
+        <?php
+         $id = $_GET["id"];
+          $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, a.name AS author_name FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id AND a.id = $id;";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            ?>
+            <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
             <td class="py-2 px-4 flex gap-4">
-                <img src="assets/covers/1.jpg" class="w-10" alt="">
+                <img src="<?php echo $row["cover_url"] ?>" class="w-10" alt="">
                 <div class="flex flex-col justify-center">
-                    <p>The Zero Marginal Cost Society</p>
-                    <h3 class="font-bold">Mickel Ozark</h3>
+                    <p><?php echo $row['title']?></p>
+                    <h3 class="font-bold "><?php echo $row['author_name']?></h3>
                 </div>
             </td>
-            <td class="py-2 px-4">4.5/5</td>
-            <td class="py-2 px-4">Design & UX</td>
+            <td class="py-2 px-4"><?php echo $row['rating']?>/5</td>
+            <td class="py-2 px-4"><?php  echo $row['description']?></td>
             <td class="py-2 px-4 text-indigo-600 cursor-pointer"><button class="bg-[#e9e3fc] px-10 py-3 font-bold">Take book</button></td>
           </tr>
-          <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
+          <?php
+          }
+          ?>
+          <!-- <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
             <td class="py-2 px-4 flex gap-4">
                 <img src="assets/covers/1.jpg" class="w-10" alt="">
                 <div class="flex flex-col justify-center">
@@ -128,7 +141,7 @@
             <td class="py-2 px-4">4.5/5</td>
             <td class="py-2 px-4">Design & UX</td>
             <td class="py-2 px-4 text-indigo-600 cursor-pointer"><button class="bg-[#7E55E7] text-white px-8 py-3 font-bold">Return book</button></td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </section>

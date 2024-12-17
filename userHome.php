@@ -29,7 +29,6 @@
         $id = $_GET["id"];
         $query = "SELECT * FROM actors WHERE id = $id ";
           $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
-          $count = 0;
           $row = mysqli_fetch_assoc(result: $result);
           ?>
         

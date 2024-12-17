@@ -27,7 +27,7 @@ if (isset($_POST["signin"])) {
             $_SESSION['id'] = $row["id"];
 
             if ($row["role_name"] == "author") {
-                header("Location: authorHome.php?id=");
+                header('Location: authorHome.php?id='.$row["id"]);
                 exit();
             } elseif ($row["role_name"] == "user") {
                 header('Location: userHome.php?id='.$row["id"]);
