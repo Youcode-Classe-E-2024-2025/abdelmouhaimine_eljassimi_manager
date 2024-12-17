@@ -1,3 +1,4 @@
+<?php include('database.php')?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -64,14 +65,20 @@
           </tr>
         </thead>
         <tbody>
+            <?php
+          $query = "SELECT a.id, a.name, a.email, r.name AS role_name FROM actors a JOIN actor_roles ar ON a.id = ar.actor_id  JOIN roles r ON ar.role_id = r.id AND a.status='active';";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            ?>
           <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
-            <td class="py-2 px-4">001</td>
-            <td class="py-2 px-4">John Doe</td>
-            <td class="py-2 px-4">john.doe@example.com</td>
-            <td class="py-2 px-4">User</td>
-            <td class="py-2 px-4"><button class="bg-red-600 text-white font-bold px-10 py-3 hover:bg-red-800">Delete</button></td>
-            <td class="py-2 px-4"><button class="bg-[#7E55E7] text-white font-bold px-10 py-3 hover:bg-[#5ce1e6]">Update</button></td>
+            <td class="py-2 px-4"><?php echo $row["id"] ?></td>
+            <td class="py-2 px-4"><?php echo $row["name"] ?></td>
+            <td class="py-2 px-4"><?php echo $row["email"] ?></td>
+            <td class="py-2 px-4"><?php echo $row["role_name"] ?></td>
+            <td class="py-2 px-4"><button class="bg-red-600 text-white font-bold px-10 py-3 hover:bg-red-800"><a href="delete.php?id=<?php echo $row["id"]?> ">Delete</a></button></td>
+            <td class="py-2 px-4"><button class="bg-[#7E55E7] text-white font-bold px-10 py-3 hover:bg-[#5ce1e6]"><a href="update.phpid=<?php echo $row["id"]?>">Update</a></button></td>
           </tr>
+          <?php } ?>
         </tbody>
       </table>
     </section>

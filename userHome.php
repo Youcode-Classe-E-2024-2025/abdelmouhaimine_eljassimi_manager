@@ -25,7 +25,15 @@
         </nav>
       </div>
       <div class="flex items-center">
-        <span class="mr-4 text-gray-600">AbdelMouhaimine El Jassimi</span>
+        <?php
+        $id = $_GET["id"];
+        $query = "SELECT * FROM actors WHERE id = $id ";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          $count = 0;
+          $row = mysqli_fetch_assoc(result: $result);
+          ?>
+        
+        <span class="mr-4 text-gray-600"><?php echo $row["name"]?></span>
         <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
       </div>
     </header>

@@ -17,6 +17,7 @@
         <button id="signupFromBtn" class="hover:text-[#5ce1e6]">SIGN UP</button>
       </div>
     </div>
+
     <form id="signinFrom" class="" action="logincheck.php" method="POST">
       <div class="mb-4">
         <label for="email" class="block text-sm text-[#7E55E7] mb-1">Email</label>
@@ -43,13 +44,14 @@
         <a href="#" class="text-sm text-[#7E55E7] hover:[#5ce1e6]">Forgot Password?</a>
       </div>
     </form>
+
     <form id="signupFrom" class="hidden" action="signup.php" method="POST">
       <div class="mb-4">
         <label for="username" class="block text-sm text-[#7E55E7] mb-1">Sign up like : </label>
-        <select class="w-full bg-gray-100 h-10 text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7E55E7]" name="role" id="role">
-          <option value="">User</option>
-          <option value="">Author</option>
-        </select>
+     <select class="w-full bg-gray-100 h-10 text-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7E55E7]" name="role" id="role">
+        <option value="user">User</option>
+        <option value="author">Author</option>
+    </select>
        </div>
       <div class="mb-4">
         <label for="username" class="block text-sm text-[#7E55E7] mb-1">Full Name</label>
