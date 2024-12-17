@@ -1,33 +1,49 @@
-<?php include('database.php');
+<?php 
+include('database.php');
 session_start();
+
 if (isset($_POST["signin"])) {
-   $username = $_POST["username"];
-   $password = $_POST["password"];
 
-         
-        $query = "SELECT a.email, a.password, r.name AS role_name FROM actors a JOIN actor_roles ar ON a.id = ar.actor_id JOIN roles r ON ar.role_id = r.id;
-;";
-        $result = mysqli_query(mysql: $connection, query : $query);
+    $email = $_POST["email"];
+    $password = $_POST["password"];
 
-              if(!$result){
-                die("query failed".mysqli_error());
-              }else{
-                while($row = mysqli_fetch_assoc(result: $result)){
-                  if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "author"){
-                      $_SESSION['loggedin'] = true;
-                      header('location:authorHome.php');
-                      exit();
-                  }else if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "user"){
-                    $_SESSION['loggedin'] = true;
-                    header('location:userHome.php');
-                    exit();
-                  }else if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "admin"){
-                    $_SESSION['loggedin'] = true;
-                    header('location:dashboard.php');
-                    exit();
-                  }
-                }
-      }
 
+    $query = "SELECT a.email, a.password, r.name AS role_name  FROM actors a  JOIN actor_roles ar ON a.id = ar.actor_id  JOIN roles r ON ar.role_id = r.id  WHERE a.email = ?";
+    
+
+    $stmt = mysqli_prepare($connection, $query);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    
+
+    $result = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($result)) {
+
+        if (password_verify($password, $row["password"])) {
+
+            $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = $row["email"];
+            $_SESSION['role'] = $row["role_name"];
+
+            if ($row["role_name"] == "author") {
+                header('Location: authorHome.php');
+                exit();
+            } elseif ($row["role_name"] == "user") {
+                header('Location: userHome.php');
+                exit();
+            } elseif ($row["role_name"] == "admin") {
+                header('Location: dashboard.php');
+                exit();
+            }
+        } else {
+            echo "Invalid password!";
+        }
+    } else {
+        echo "No user found with that email!";
+    }
+    
+    mysqli_stmt_close($stmt);
+    mysqli_close($connection);
 }
 ?>
