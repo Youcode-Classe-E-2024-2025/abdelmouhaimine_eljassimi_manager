@@ -46,31 +46,24 @@
           <h2 class="text-gray-700 font-semibold text-lg">Recommended</h2>
       </div>
       <div class="flex justify-around overflow-x-auto space-x-4 mt-4">
-        <!-- Book Card -->
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/1.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
+      <?php
+          $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, a.name AS author_name FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id;";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          $count = 0;
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            ?>
+          <div class="min-w-[150px] bg-white flex flex-col gap-4 justify-center p-4 border rounded-md text-center shadow hover:shadow-lg transition">
+          <img src="<?php echo $row["cover_url"] ?>" class="w-36 flex justify-center ml-2" alt="Book" class="mx-auto mb-2"/>
+          <h3 class="font-semibold text-gray-700 w-40 flex justify-center flex-wrap"><?php echo $row['title']?></h3>
+          <i class="text-sm font-boldtext-gray-500"><?php echo $row['author_name']?></i>
+          <p class="text-sm font-bold text-indigo-600"><?php echo $row['rating']?>/5</p>
         </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/2.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/3.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
-        <div class="min-w-[150px] bg-white p-4 border rounded-md text-center shadow hover:shadow-lg transition">
-          <img src="assets/covers/4.jpg" class="w-36" alt="Book" class="mx-auto mb-2"/>
-          <h3 class="font-semibold text-gray-700">Change by Design</h3>
-          <p class="text-sm text-gray-500">Allie Wells</p>
-          <p class="text-sm font-bold text-indigo-600">4.5/5</p>
-        </div>
+            <?php 
+            $count++;
+            if ($count >= 4) {
+              break;
+            }
+          } ?>
       </div>
     </section>
 
@@ -86,7 +79,7 @@
         </thead>
         <tbody>
           <?php
-          $query = "SELECT * FROM `books`";
+          $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, a.name AS author_name FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id;";
           $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
           while ($row = mysqli_fetch_assoc(result: $result)) {
             ?>
@@ -95,7 +88,7 @@
                 <img src="<?php echo $row["cover_url"] ?>" class="w-10" alt="">
                 <div class="flex flex-col justify-center">
                     <p><?php echo $row['title']?></p>
-                    <h3 class="font-bold">Mickel Ozark</h3>
+                    <h3 class="font-bold "><?php echo $row['author_name']?></h3>
                 </div>
             </td>
             <td class="py-2 px-4"><?php echo $row['rating']?>/5</td>

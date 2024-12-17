@@ -154,7 +154,7 @@
         </div>
         <div>
           <label for="cover" class="block text-sm font-medium text-gray-700">Cover</label>
-          <input type="file" id="cover" name="cover" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[#7E55E7]">
+          <input type="text" id="cover" name="cover" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[#7E55E7]">
         </div>
         <div>
           <label for="descritpion" class="block text-sm font-medium text-gray-700">Description</label>

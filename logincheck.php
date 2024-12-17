@@ -5,21 +5,28 @@ if (isset($_POST["signin"])) {
    $password = $_POST["password"];
 
          
-        $query = "SELECT * FROM `admins`";
+        $query = "SELECT a.email, a.password, r.name AS role_name FROM actors a JOIN actor_roles ar ON a.id = ar.actor_id JOIN roles r ON ar.role_id = r.id;
+;";
         $result = mysqli_query(mysql: $connection, query : $query);
 
               if(!$result){
                 die("query failed".mysqli_error());
               }else{
-                $row = mysqli_fetch_assoc(result: $result);
-                if($row["username"]==$username && $row["password"]==$password){
+                while($row = mysqli_fetch_assoc(result: $result)){
+                  if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "author"){
+                      $_SESSION['loggedin'] = true;
+                      header('location:authorHome.php');
+                      exit();
+                  }else if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "user"){
                     $_SESSION['loggedin'] = true;
-                    header('location:home.php');
+                    header('location:userHome.php');
                     exit();
-              }else{
-                header('Location: index.php?error=true');
-                exit();
-              }
+                  }else if($row["email"]==$username && $row["password"]==$password && $row["role_name"] == "admin"){
+                    $_SESSION['loggedin'] = true;
+                    header('location:dashboard.php');
+                    exit();
+                  }
+                }
       }
 
 }
