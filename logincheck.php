@@ -1,7 +1,6 @@
 <?php 
 include('database.php');
 session_start();
-
 if (isset($_POST["signin"])) {
 
     $email = $_POST["email"];
@@ -19,9 +18,9 @@ if (isset($_POST["signin"])) {
 
     if ($row = mysqli_fetch_assoc($result)) {
 
-        if (password_verify($password, $row["password"])) {
+        if (password_verify($password, $row["password"])){
 
-            $_SESSION['loggedin'] = true;
+            $_SESSION['user_logged_in'] = true;
             $_SESSION['email'] = $row["email"];
             $_SESSION['role'] = $row["role_name"];
             $_SESSION['id'] = $row["id"];

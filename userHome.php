@@ -1,18 +1,16 @@
-<?php include('database.php')?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-    .font-roboto {
-      font-family: 'Roboto', sans-serif;
-    }
-    </style>
-    <title>100 BOOKS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+<?php 
+include('database.php');
+?>
+<?php
+session_start();
+if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+    header("Location: index.php");
+    exit();
+}
+?>
+
+<?php include('header.php') ?>
+
   <body class="bg-gray-100 font-roboto">
     <!-- Header -->
     <header class="bg-white shadow-md flex justify-between items-center p-4 px-8">
@@ -31,7 +29,8 @@
           $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
           $row = mysqli_fetch_assoc(result: $result);
           ?>
-        
+
+        <a class="bg-[#8C52FD] px-10 py-3 mx-4 rounded-sm font-bold text-white" href="logout.php">Log Out</a>
         <span class="mr-4 text-gray-600"><?php echo $row["name"]?></span>
         <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
       </div>

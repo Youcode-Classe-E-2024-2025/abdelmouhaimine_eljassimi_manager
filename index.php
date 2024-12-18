@@ -1,13 +1,19 @@
+<?php 
+session_start();
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="assets/logo.png">
-  <title>Login Page</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+if (isset($_SESSION['user_logged_in']) && $_SESSION['user_logged_in'] === true) {
+  if ($_SESSION['role'] === "author") {
+      header("Location: authorHome.php?id=" . $_SESSION['id']);
+  } elseif ($_SESSION['role'] === "user") {
+      header("Location: userHome.php?id=" . $_SESSION['id']);
+  } elseif ($_SESSION['role'] === "admin") {
+      header("Location: dashboard.php?id=" . $_SESSION['id']);
+  }
+  exit();
+}
+
+include('header.php');
+?>
 <body class="flex items-center justify-center h-screen bg-gray-100">
   <div class="bg-[#FFF] p-6 rounded-lg shadow-lg w-96">
     <div class="flex flex-col items-center mb-6">

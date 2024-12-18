@@ -1,18 +1,12 @@
 <?php include('database.php')?>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-    .font-roboto {
-      font-family: 'Roboto', sans-serif;
-    }
-    </style>
-    <title>100 BOOKS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+<?php
+session_start();
+if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+    header("Location: index.php");
+    exit();
+}
+?>
+<?php include('header.php');?>
   <body class="bg-gray-100 font-roboto">
     <!-- Header -->
     <header class="bg-white shadow-md flex justify-between items-center p-4 px-8">
