@@ -1,7 +1,7 @@
 <?php include('database.php')?>
 <?php
 session_start();
-if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
+if (!isset($_SESSION['user_logged_in_autor']) || $_SESSION['user_logged_in_autor'] !== true) {
     header("Location: index.php");
     exit();
 }
@@ -25,6 +25,7 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
            $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
            $row = mysqli_fetch_assoc(result: $result);
            ?>
+        <a class="bg-[#8C52FD] px-10 py-3 mx-4 rounded-sm font-bold text-white" href="logout.php">Log Out</a>
         <span class="mr-4 text-gray-600"><?php echo $row["name"] ?></span>
         <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
       </div>

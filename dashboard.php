@@ -1,11 +1,11 @@
 <?php include('database.php')?>
 <?php include('header.php');?>
 <?php
-session_start();
-if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true) {
-    header("Location: index.php");
-    exit();
-}
+    session_start();
+    if (!isset($_SESSION['user_logged_in_admin']) || $_SESSION['user_logged_in_admin'] !== true) {
+        header("Location: index.php");
+        exit();
+    }
 ?>
 
   <body class="bg-gray-100 font-roboto">
@@ -20,7 +20,15 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
         </nav>
       </div>
       <div class="flex items-center">
-        <span class="mr-4 text-gray-600">ELJASSIMI</span>
+      <?php
+        $id = $_GET["id"];
+        $query = "SELECT * FROM actors WHERE id = $id ";
+          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          $row = mysqli_fetch_assoc(result: $result);
+          ?>
+
+        <a class="bg-[#8C52FD] px-10 py-3 mx-4 rounded-sm font-bold text-white" href="logout.php">Log Out</a>
+        <span class="mr-4 text-gray-600"><?php echo $row["name"]?></span>
         <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
       </div>
     </header>
@@ -51,7 +59,7 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
             <th class="py-2 px-4 text-gray-600">Email</th>
             <th class="py-2 px-4 text-gray-600">Role</th>
             <th class="py-2 px-4 text-gray-600">Delete</th>
-            <th class="py-2 px-4 text-gray-600">Update</th>
+            <th class="py-2 px-4 text-gray-600">Update role</th>
           </tr>
         </thead>
         <tbody>
@@ -66,12 +74,37 @@ if (!isset($_SESSION['user_logged_in']) || $_SESSION['user_logged_in'] !== true)
             <td class="py-2 px-4"><?php echo $row["email"] ?></td>
             <td class="py-2 px-4"><?php echo $row["role_name"] ?></td>
             <td class="py-2 px-4"><button class="bg-red-600 text-white font-bold px-10 py-3 hover:bg-red-800"><a href="delete.php?id=<?php echo $row["id"]?> ">Delete</a></button></td>
-            <td class="py-2 px-4"><button class="bg-[#7E55E7] text-white font-bold px-10 py-3 hover:bg-[#5ce1e6]"><a href="update.phpid=<?php echo $row["id"]?>">Update</a></button></td>
+            <td class="py-2 px-4"><button id="update" data-id="<?php echo $row["id"]?>" class="bg-[#7E55E7] text-white font-bold px-10 py-3 hover:bg-[#5ce1e6]">Update</button></td>
           </tr>
           <?php } ?>
         </tbody>
       </table>
     </section>
+
+    <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+      <div class="bg-white w-96 rounded-lg shadow-lg p-6">
+
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Edit Actor role</h2>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
+        </div>
+        
+        <form id="addPackageForm" class="space-y-4" action = "editrole.php?id=<?php $id = $_GET["id"]; echo $id?>" method ="POST">
+            
+            <select id="actorRole" name="actorRole" class="w-full text-black focus:outline-none focus:ring focus:ring-[#7E55E7]" id="actorRole">
+               <option value="1">Admin</option>
+               <option value="2">Author</option>
+               <option value="3">user</option>
+            </select>
+            <input id="hiddenId" name="id" type="hidden" value="">
+            <div class="flex justify-end space-x-2">
+            <button type="button" id="closeModalFooter" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Close</button>
+            <button type="submit" name="editRoleBtn" class="bg-[#7E55E7] text-white px-4 py-2 rounded hover:bg-[#5ce1e6]">Submit</button>
+            </div>
+        </form>
+
+        </div>
+  </div>
 
     <script src="script/dashboard.js"></script>
   </body>

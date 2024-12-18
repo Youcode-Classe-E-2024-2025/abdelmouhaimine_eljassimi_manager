@@ -26,12 +26,15 @@ if (isset($_POST["signin"])) {
             $_SESSION['id'] = $row["id"];
 
             if ($row["role_name"] == "author") {
+              $_SESSION['user_logged_in_autor'] = true;
                 header('Location: authorHome.php?id='.$row["id"]);
                 exit();
             } elseif ($row["role_name"] == "user") {
+              $_SESSION['user_logged_in_user'] = true;
                 header('Location: userHome.php?id='.$row["id"]);
                 exit();
             } elseif ($row["role_name"] == "admin") {
+              $_SESSION['user_logged_in_admin'] = true;
                 header('Location: dashboard.php?id='.$row["id"]);
                 exit();
             }
