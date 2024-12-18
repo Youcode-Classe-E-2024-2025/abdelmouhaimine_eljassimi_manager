@@ -8,7 +8,7 @@ if (isset($_POST["signin"])) {
     $password = $_POST["password"];
 
 
-    $query = "SELECT a.id, a.email, a.password, r.name AS role_name  FROM actors a   JOIN actor_roles ar ON a.id = ar.actor_id   JOIN roles r ON ar.role_id = r.id   WHERE a.email = ?";
+    $query = "SELECT a.id, a.email, a.password,a.status, r.name AS role_name  FROM actors a   JOIN actor_roles ar ON a.id = ar.actor_id   JOIN roles r ON ar.role_id = r.id   WHERE a.email = ? AND a.status = 'active' ";
     
 
     $stmt = mysqli_prepare($connection, $query);
@@ -40,7 +40,7 @@ if (isset($_POST["signin"])) {
             echo "Invalid password!";
         }
     } else {
-        echo "No user found with that email!";
+        header("location:banned.php");
     }
 
     mysqli_stmt_close($stmt);

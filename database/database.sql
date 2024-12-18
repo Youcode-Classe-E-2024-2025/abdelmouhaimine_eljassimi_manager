@@ -32,6 +32,7 @@ CREATE TABLE books (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     isbn VARCHAR(20) UNIQUE NOT NULL,
+    rating VARCHAR(20),
     cover_url VARCHAR(50)
 );
 

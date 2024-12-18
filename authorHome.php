@@ -84,7 +84,7 @@
           <tr class="border-b h-10">
             <th class="py-2 px-4 text-gray-600">Title</th>
             <th class="py-2 px-4 text-gray-600">Rating</th>
-            <th class="py-2 px-4 text-gray-600">Category</th>
+            <th class="py-2 px-4 text-gray-600">Description</th>
             <th class="py-2 px-4 text-gray-600">Status</th>
           </tr>
         </thead>
@@ -110,42 +110,10 @@
           <?php
           }
           ?>
-          <!-- <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
-            <td class="py-2 px-4 flex gap-4">
-                <img src="assets/covers/1.jpg" class="w-10" alt="">
-                <div class="flex flex-col justify-center">
-                    <p>The Zero Marginal Cost Society</p>
-                    <h3 class="font-bold">Mickel Ozark</h3>
-                </div>
-            </td>
-            <td class="py-2 px-4">4.5/5</td>
-            <td class="py-2 px-4">Design & UX</td>
-            <td class="py-2 px-4 text-indigo-600 cursor-pointer">
-              <div class="flex gap-4 items-center">
-                <img src="assets/mee.jpg" alt="admin picture" class="w-10 h-10 rounded-full border"/>
-                <div class="flex flex-col justify-center">
-                    <p class="text-[#131313]">Taken 20 days ago</p>
-                    <h3 class="text-[#131313] font-bold">Mickel Ozark</h3>
-                </div>
-              </div>
-            </td>
-          </tr>
-          <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
-            <td class="py-2 px-4 flex gap-4">
-                <img src="assets/covers/1.jpg" class="w-10" alt="">
-                <div class="flex flex-col justify-center">
-                    <p>The Zero Marginal Cost Society</p>
-                    <h3 class="font-bold">Mickel Ozark</h3>
-                </div>
-            </td>
-            <td class="py-2 px-4">4.5/5</td>
-            <td class="py-2 px-4">Design & UX</td>
-            <td class="py-2 px-4 text-indigo-600 cursor-pointer"><button class="bg-[#7E55E7] text-white px-8 py-3 font-bold">Return book</button></td>
-          </tr> -->
         </tbody>
       </table>
     </section>
-    
+
     <!-- Form Modal  -->
     <div id="modal" class="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
     <div class="bg-white w-96 rounded-lg shadow-lg p-6">
@@ -155,14 +123,21 @@
         <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
       </div>
       
-      <form id="addPackageForm" class="space-y-4" action = "add.php" method ="POST">
+      <form id="addPackageForm" class="space-y-4" action = "addBook.php" method ="POST">
         <div>
-          <label for="packageName" class="block text-sm font-medium text-gray-700">Book Title</label>
-          <input type="text" id="packageName" name="packageName" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[#7E55E7]">
+          <label for="title" class="block text-sm font-medium text-gray-700">Book Title</label>
+          <input type="text" id="title" name="title" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[#7E55E7]">
         </div>
         <div>
           <label for="AuthorName" class="block text-sm font-medium text-gray-700">Author Name</label>
-           <select id="AuthorName" name="AuthorName" class="w-full text-black focus:outline-none focus:ring focus:ring-[#7E55E7]" id="AuthorName">
+           <select id="AuthorName" name="AuthorName[]" class="w-full text-black focus:outline-none focus:ring focus:ring-[#7E55E7]" id="AuthorName" multiple size="5">
+            <?php
+            $query = "SELECT * FROM actors ";
+            $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+            while ($row = mysqli_fetch_assoc(result: $result)) {
+            ?>
+            <option value="<?php echo $row["id"]?>"><?php echo $row["name"]?></option>
+            <?php } ?>
            </select>
         </div>
         <div>
@@ -177,10 +152,11 @@
           <label for="rating" class="block text-sm font-medium text-gray-700">Rating</label>
            <input type="text" id="rating" name="rating" class="block w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-[#7E55E7]">
         </div>
+        <input type="hidden" name="id" value="<?php $id = $_GET["id"]; echo $id ?>">
         <div class="flex justify-end space-x-2">
           <button type="button" id="closeModalFooter" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">Close</button>
-          <button id="submit" type="submit" name="addPackage" class = "bg-[#7E55E7] text-white px-4 py-2 rounded hover:bg-[#5ce1e6]">Submit</button>
-          <button id="edit" type="submit" name="Editpackage"  class = "bg-[#7E55E7] text-white px-4 py-2 rounded hover:bg-[#5ce1e6] hidden">Update<</button>
+          <button type="submit" name="addBook" class="bg-[#7E55E7] text-white px-4 py-2 rounded hover:bg-[#5ce1e6]">Submit</button>
+          <button id="edit" type="submit" name="EditBook"  class = "bg-[#7E55E7] text-white px-4 py-2 rounded hover:bg-[#5ce1e6] hidden">Update<</button>
         </div>
       </form>
 
