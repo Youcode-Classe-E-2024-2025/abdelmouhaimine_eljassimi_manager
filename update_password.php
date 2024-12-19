@@ -3,18 +3,17 @@ include("database.php");
 
 if (isset($_POST["sendemail"])) {
 
-    $id = $_POST["id"];
-    var_dump($id);
+    $tocken = $_POST["tocken"];
     $password = $_POST["password"];
 
  
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $query = "UPDATE actors SET `password` = ? WHERE `id` = ?";
+    $query = "UPDATE actors SET `password` = ? WHERE `tocken` = ?";
     $stmt = $connection->prepare($query);
 
     if ($stmt) {
-        $stmt->bind_param("si", $hashedPassword, $id);
+        $stmt->bind_param("si", $hashedPassword, $tocken);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {

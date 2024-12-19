@@ -127,12 +127,6 @@ if (!isset($_SESSION['user_logged_in_autor']) || $_SESSION['user_logged_in_autor
             <h2 class="text-xl font-semibold">Add Book</h2>
             <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
         </div>
-        <?php
-        if (empty($_SESSION['csrf_token'])) {
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        }
-        $csrf_token = $_SESSION['csrf_token'];
-        ?>
         <form id="addPackageForm" class="space-y-4" action="addBook.php" method="POST">
             <div>
                 <label for="title" class="block text-sm font-medium text-gray-700">Book Title</label>

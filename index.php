@@ -23,14 +23,6 @@ include('header.php');
         <button id="signupFromBtn" class="hover:text-[#5ce1e6]">SIGN UP</button>
       </div>
     </div>
-
-    <?php
-          session_start();
-          if (empty($_SESSION['csrf_token'])) {
-              $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-          }
-          $csrf_token = $_SESSION['csrf_token'];
-      ?>
       
     <form id="signinFrom" class="" action="logincheck.php" method="POST">
       <div class="mb-4">

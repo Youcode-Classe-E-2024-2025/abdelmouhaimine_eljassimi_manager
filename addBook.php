@@ -4,11 +4,6 @@ include('database.php');
 
 if (isset($_POST['addBook'])) {
 
-
-    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-        die("CSRF token validation failed.");
-    }
-
     $title = htmlspecialchars($_POST['title']);
     $author_ids = $_POST['AuthorName']; 
     $cover = htmlspecialchars($_POST['cover']);

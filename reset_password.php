@@ -10,7 +10,7 @@
         <label for="password" class="block text-sm text-[#7E55E7] mb-1">Enter new password : </label>
         <input type="password" name="password" id="password" placeholder="password" class="w-full px-4 py-2  text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-[#7E55E7]">
       </div>
-      <input name="id" type="hidden" value="<?php echo htmlspecialchars($_GET['id']); ?>">
+      <input name="tocken" type="hidden" value="<?php echo htmlspecialchars($_GET['token']); ?>">
       <button type="submit" name="sendemail" class="w-full bg-[#7E55E7] text-white py-2 rounded-md hover:bg-[#5ce1e6] focus:outline-none focus:ring-2 focus:ring-[#7E55E7]">Update password</button>
     </form>
   </div>

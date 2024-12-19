@@ -4,8 +4,13 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
-
+$tocken = rand(300, 300000);
 $email = $_POST["email"];
+
+$query = "UPDATE actors SET tocken = $tocken WHERE email = ?;";
+$stmt = $connection->prepare($query);
+$stmt->bind_param("s", $email);
+$stmt->execute();
 
 
 $query = "SELECT * from actors WHERE email = ?";
@@ -35,7 +40,7 @@ if ($result->num_rows > 0) {
         $mail->setFrom('MS_A9LfRb@trial-zr6ke4nke2v4on12.mlsender.net', 'Your Name');
         $mail->addAddress($email, 'Recipient Name');
 
-        $resetLink = "http://localhost/abdelmouhaimine_eljassimi_manager/reset_password.php?id=$id";
+        $resetLink = "http://localhost/abdelmouhaimine_eljassimi_manager/reset_password.php?token=$tocken";
         $mail->isHTML(true); // Set email format to HTML
         $mail->Subject = '100 BOOKS RESET YOUR PASSWORD';
         $mail->Body    = "
