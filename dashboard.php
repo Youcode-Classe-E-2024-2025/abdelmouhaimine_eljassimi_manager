@@ -36,16 +36,40 @@
     <!-- Stats Cards -->
     <section class="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition text-center">
+        <h3 class="text-xl font-semibold text-gray-700">Total Books</h3>
+         <?php 
+         $count = 0;
+         $query = "SELECT * FROM books";
+         $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            $count += 1;
+           }
+           ?>
+           <p class="text-4xl font-bold text-indigo-600 mt-2"><?php echo $count ?></p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition text-center">
         <h3 class="text-xl font-semibold text-gray-700">Total Users</h3>
-        <p class="text-4xl font-bold text-indigo-600 mt-2">1,245</p>
+        <?php 
+         $count = 0;
+         $query = "SELECT * FROM actor_roles WHERE role_id = 3 ;";
+         $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            $count += 1;
+           }
+           ?>
+           <p class="text-4xl font-bold text-indigo-600 mt-2"><?php echo $count ?></p>
       </div>
       <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition text-center">
-        <h3 class="text-xl font-semibold text-gray-700">Active Orders</h3>
-        <p class="text-4xl font-bold text-indigo-600 mt-2">578</p>
-      </div>
-      <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition text-center">
-        <h3 class="text-xl font-semibold text-gray-700">Revenue</h3>
-        <p class="text-4xl font-bold text-indigo-600 mt-2">$12,340</p>
+        <h3 class="text-xl font-semibold text-gray-700">Total Authors</h3>
+        <?php 
+         $count = 0;
+         $query = "SELECT * FROM actor_roles WHERE role_id = 2 ;";
+         $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+          while ($row = mysqli_fetch_assoc(result: $result)) {
+            $count += 1;
+           }
+           ?>
+           <p class="text-4xl font-bold text-indigo-600 mt-2"><?php echo $count ?></p>
       </div>
     </section>
 

@@ -14,7 +14,7 @@
   </head>
 <body class="bg-gray-100 font-roboto">
 
-    <!-- Main Content -->
+
     <main class="flex items-center justify-center h-screen">
         <div class="text-center">
              <a href="index.php"><img class="w-32" src="assets/logo.png" alt="logo"></a>

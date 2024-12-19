@@ -85,8 +85,11 @@ if (!isset($_SESSION['user_logged_in_user']) || $_SESSION['user_logged_in_user']
         </thead>
         <tbody>
           <?php
-          $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, a.name AS author_name FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id;";
-          $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
+
+        $query = "SELECT b.title, b.description, b.rating, b.isbn, b.cover_url, GROUP_CONCAT(a.name ORDER BY a.name ASC) AS author_name
+        FROM books b JOIN book_authors ba ON b.id = ba.book_id JOIN actors a ON ba.author_id = a.id GROUP BY b.id; ";
+        
+         $result = mysqli_query(mysql: $connection, query: $query) or die(mysqli_error(mysql: $connection));
           while ($row = mysqli_fetch_assoc(result: $result)) {
             ?>
             <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
@@ -104,7 +107,6 @@ if (!isset($_SESSION['user_logged_in_user']) || $_SESSION['user_logged_in_user']
           <?php
           }
           ?>
-          
           <tr class="hover:bg-gray-50 h-20 rounded-lg border-b">
             <td class="py-2 px-4 flex gap-4">
                 <img src="assets/covers/1.jpg" class="w-10" alt="">

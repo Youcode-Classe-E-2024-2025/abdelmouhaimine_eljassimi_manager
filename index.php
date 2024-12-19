@@ -24,6 +24,14 @@ include('header.php');
       </div>
     </div>
 
+    <?php
+          session_start();
+          if (empty($_SESSION['csrf_token'])) {
+              $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+          }
+          $csrf_token = $_SESSION['csrf_token'];
+      ?>
+      
     <form id="signinFrom" class="" action="logincheck.php" method="POST">
       <div class="mb-4">
         <label for="email" class="block text-sm text-[#7E55E7] mb-1">Email</label>
@@ -47,7 +55,7 @@ include('header.php');
         SIGN IN
       </button>
       <div class="mt-4 text-center">
-        <a href="#" class="text-sm text-[#7E55E7] hover:[#5ce1e6]">Forgot Password?</a>
+        <a href="forgetpassword.php" class="text-sm text-[#7E55E7] hover:[#5ce1e6]">Forgot Password?</a>
       </div>
     </form>
 

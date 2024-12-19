@@ -1,8 +1,13 @@
 <?php
-
+session_start();
 include('database.php');
 
 if (isset($_POST['addBook'])) {
+
+
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF token validation failed.");
+    }
 
     $title = htmlspecialchars($_POST['title']);
     $author_ids = $_POST['AuthorName']; 
@@ -11,14 +16,12 @@ if (isset($_POST['addBook'])) {
     $rating = htmlspecialchars($_POST['rating']); 
     $id = $_POST['id'];
 
- 
-    $query = "INSERT INTO books (title, cover_url, description, rating,isbn) VALUES (?, ?, ?, ?,?);";
+    $query = "INSERT INTO books (title, cover_url, description, rating, isbn) VALUES (?, ?, ?, ?, ?);";
     $stmt = $connection->prepare($query);
-    $stmt->bind_param("ssssi", $title, $cover, $description, $rating,round(microtime(true) * 1000));
+    $stmt->bind_param("ssssi", $title, $cover, $description, $rating, round(microtime(true) * 1000));
 
     if ($stmt->execute()) {
-
-        $book_id = $connection->insert_id; 
+        $book_id = $connection->insert_id;
 
         $query = "INSERT INTO book_authors (book_id, author_id) VALUES (?, ?)";
         $stmt = $connection->prepare($query);
